@@ -1,4 +1,5 @@
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
+import { registerExportScadStlTool } from "./app/tools/export-scad-stl/register";
 import { registerRenderScadPngTool } from "./app/tools/render-scad-png/register";
 
 /**
@@ -11,6 +12,7 @@ export function createServer(): McpServer {
   });
 
   registerRenderScadPngTool(server);
+  registerExportScadStlTool(server);
 
   return server;
 }

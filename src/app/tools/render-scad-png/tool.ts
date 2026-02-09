@@ -1,13 +1,18 @@
 import { getOpenSCADInstance } from "@/infra/openscad";
 import { createPngBase64FromStl } from "@/infra/stl-to-png";
-import type { CallToolResult } from "@modelcontextprotocol/sdk/types.js";
+import {
+  createSingleBlockResult,
+  type StructuredToolResult,
+} from "../../tool-utils";
 import type { RenderScadPngToolInput, RenderScadPngToolOutput } from "./type";
 
 export const renderScadPngTool = async ({
   scadCode,
   width,
   height,
-}: RenderScadPngToolInput): Promise<CallToolResult> => {
+}: RenderScadPngToolInput): Promise<
+  StructuredToolResult<RenderScadPngToolOutput>
+> => {
   const openscad = await getOpenSCADInstance();
   const stl = await openscad.renderToStl(scadCode);
   const base64Png = await createPngBase64FromStl(stl, width, height);
@@ -17,8 +22,5 @@ export const renderScadPngTool = async ({
     mimeType: "image/png",
   };
 
-  return {
-    content: [image],
-    structuredContent: image,
-  };
+  return createSingleBlockResult(image);
 };
