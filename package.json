@@ -21,8 +21,7 @@
   "scripts": {
     "start": "bun --watch index.ts",
     "dev": "bun x @modelcontextprotocol/inspector bun start --stdio",
-    "version:dry": "bun scripts/bump-version.ts --dry-run",
-    "version:write": "bun scripts/bump-version.ts --write",
+    "version": "bun scripts/bump-version.ts",
     "build": "tsdown index.ts --banner '#!/usr/bin/env node\n' --env.NODE_ENV production --format esm",
     "prepack": "bun run build"
   },
@@ -31,7 +30,8 @@
   },
   "files": [
     "dist",
-    "README.md"
+    "README.md",
+    "server.json"
   ],
   "devDependencies": {
     "@types/bun": "latest",
