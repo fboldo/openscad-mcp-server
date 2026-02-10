@@ -4,10 +4,14 @@
   "type": "module",
   "license": "MIT",
   "version": "0.0.0",
-  "description": "An MCP server for rendering STL and PNG from OpenSCAD code.",
+  "description": "An MCP server that renders PNG previews and STL geometry from OpenSCAD (SCAD) source code.",
   "repository": {
     "url": "git+https://github.com/fboldo/openscad-mcp-server.git"
   },
+  "bugs": {
+    "url": "https://github.com/fboldo/openscad-mcp-server/issues"
+  },
+  "homepage": "https://github.com/fboldo/openscad-mcp-server#readme",
   "keywords": [
     "mcp",
     "modelcontextprotocol",
@@ -18,12 +22,19 @@
     "png",
     "3d"
   ],
+  "engines": {
+    "bun": ">=1.3.8"
+  },
   "scripts": {
     "start": "bun --watch index.ts",
     "dev": "bun x @modelcontextprotocol/inspector bun start --stdio",
     "version": "bun scripts/bump-version.ts",
     "build": "tsdown index.ts --banner '#!/usr/bin/env node\n' --env.NODE_ENV production --format esm",
-    "prepack": "bun run build"
+    "prepack": "bun run build",
+    "prepare": "husky",
+    "precommit": "lint-staged",
+    "format": "prettier --write 'src/**/*.ts' 'scripts/**/*.ts'",
+    "format:check": "prettier --check 'src/**/*.ts' 'scripts/**/*.ts'"
   },
   "bin": {
     "openscad-mcp-server": "./dist/index.mjs"
@@ -33,12 +44,17 @@
     "README.md",
     "server.json"
   ],
+  "lint-staged": {
+    "src/**/*.ts": "prettier --write",
+    "scripts/**/*.ts": "prettier --write"
+  },
   "devDependencies": {
     "@types/bun": "latest",
     "@types/node": "^25.2.2",
-    "tsdown": "^0.20.3"
-  },
-  "peerDependencies": {
+    "husky": "^9.1.7",
+    "lint-staged": "^16.2.7",
+    "prettier": "^3.8.1",
+    "tsdown": "^0.20.3",
     "typescript": "^5"
   },
   "dependencies": {

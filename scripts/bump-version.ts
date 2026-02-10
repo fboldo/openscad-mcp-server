@@ -1,4 +1,4 @@
-import { readFile, writeFile } from "node:fs/promises";
+import { readFile, writeFile } from 'node:fs/promises';
 
 type CliOptions = {
   version?: string;
@@ -18,31 +18,31 @@ function parseArgs(argv: string[]): CliOptions {
   for (let index = 2; index < argv.length; index++) {
     const arg = argv[index];
 
-    if (arg === "--dry-run" || arg === "--dry") {
+    if (arg === '--dry-run' || arg === '--dry') {
       options.dryRun = true;
       continue;
     }
 
-    if (arg === "--write") {
+    if (arg === '--write') {
       options.write = true;
       continue;
     }
 
-    if (arg === "--version") {
+    if (arg === '--version') {
       const value = argv[++index];
-      if (!value) throw new Error("--version requires a value");
+      if (!value) throw new Error('--version requires a value');
       options.version = value;
       continue;
     }
 
-    if (arg === "--tag") {
+    if (arg === '--tag') {
       const value = argv[++index];
-      if (!value) throw new Error("--tag requires a value");
+      if (!value) throw new Error('--tag requires a value');
       options.tag = value;
       continue;
     }
 
-    if (arg === "--help" || arg === "-h") {
+    if (arg === '--help' || arg === '-h') {
       printHelp();
       process.exit(0);
     }
@@ -69,12 +69,10 @@ Options:
 }
 
 function normalizeVersion(options: CliOptions): string {
-  const provided =
-    options.version ??
-    (options.tag ? options.tag.replace(/^v/, "") : undefined);
+  const provided = options.version ?? (options.tag ? options.tag.replace(/^v/, '') : undefined);
 
   if (!provided) {
-    throw new Error("Provide --version <semver> or --tag <vX.Y.Z>");
+    throw new Error('Provide --version <semver> or --tag <vX.Y.Z>');
   }
 
   if (!SEMVER_REGEX.test(provided)) {
@@ -85,20 +83,17 @@ function normalizeVersion(options: CliOptions): string {
 }
 
 async function readJsonFile<T>(path: string): Promise<T> {
-  const raw = await readFile(path, "utf8");
+  const raw = await readFile(path, 'utf8');
   return JSON.parse(raw) as T;
 }
 
 async function writeJsonFile(path: string, value: unknown) {
-  const pretty = JSON.stringify(value, null, 2) + "\n";
-  await writeFile(path, pretty, "utf8");
+  const pretty = JSON.stringify(value, null, 2) + '\n';
+  await writeFile(path, pretty, 'utf8');
 }
 
-function updatePackageJson(
-  packageJson: any,
-  version: string,
-): { before: string; after: string } {
-  const before = String(packageJson?.version ?? "");
+function updatePackageJson(packageJson: any, version: string): { before: string; after: string } {
+  const before = String(packageJson?.version ?? '');
   packageJson.version = version;
   const after = String(packageJson.version);
   return { before, after };
@@ -106,15 +101,15 @@ function updatePackageJson(
 
 function updateServerJson(
   serverJson: any,
-  version: string,
+  version: string
 ): { before: string; after: string; updatedPackages: number } {
-  const before = String(serverJson?.version ?? "");
+  const before = String(serverJson?.version ?? '');
   serverJson.version = version;
 
   let updatedPackages = 0;
   if (Array.isArray(serverJson.packages)) {
     for (const pkg of serverJson.packages) {
-      if (pkg && pkg.registryType === "npm") {
+      if (pkg && pkg.registryType === 'npm') {
         pkg.version = version;
         updatedPackages++;
       }
@@ -129,16 +124,16 @@ const options = parseArgs(process.argv);
 const version = normalizeVersion(options);
 
 if (options.dryRun && options.write) {
-  throw new Error("Choose either --dry-run or --write (not both)");
+  throw new Error('Choose either --dry-run or --write (not both)');
 }
 
-const mode = options.write ? "write" : "dry-run";
+const mode = options.write ? 'write' : 'dry-run';
 
 // eslint-disable-next-line no-console
 console.log(`[bump-version] mode=${mode} version=${version}`);
 
-const packageJsonPath = "package.json";
-const serverJsonPath = "server.json";
+const packageJsonPath = 'package.json';
+const serverJsonPath = 'server.json';
 
 const packageJson = await readJsonFile<any>(packageJsonPath);
 const serverJson = await readJsonFile<any>(serverJsonPath);
@@ -147,20 +142,18 @@ const pkgChange = updatePackageJson(packageJson, version);
 const serverChange = updateServerJson(serverJson, version);
 
 // eslint-disable-next-line no-console
-console.log(
-  `[bump-version] ${packageJsonPath}: ${pkgChange.before} -> ${pkgChange.after}`,
-);
+console.log(`[bump-version] ${packageJsonPath}: ${pkgChange.before} -> ${pkgChange.after}`);
 // eslint-disable-next-line no-console
 console.log(
-  `[bump-version] ${serverJsonPath}: ${serverChange.before} -> ${serverChange.after} (updated npm packages: ${serverChange.updatedPackages})`,
+  `[bump-version] ${serverJsonPath}: ${serverChange.before} -> ${serverChange.after} (updated npm packages: ${serverChange.updatedPackages})`
 );
 
 if (options.write) {
   await writeJsonFile(packageJsonPath, packageJson);
   await writeJsonFile(serverJsonPath, serverJson);
   // eslint-disable-next-line no-console
-  console.log("[bump-version] wrote changes");
+  console.log('[bump-version] wrote changes');
 } else {
   // eslint-disable-next-line no-console
-  console.log("[bump-version] dry-run only (no files written)");
+  console.log('[bump-version] dry-run only (no files written)');
 }
