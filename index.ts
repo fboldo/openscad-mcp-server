@@ -1,7 +1,7 @@
 import { bootstrap } from "./src/boostrap";
 import { createServer } from "./src/server";
 
-await bootstrap(
-  process.argv.includes("--stdio") ? "stdio" : "http",
-  createServer,
-);
+const isStdio =
+  process.argv.includes("--stdio") || process.env.NODE_ENV === "production";
+
+await bootstrap(isStdio ? "stdio" : "http", createServer);

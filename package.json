@@ -1,9 +1,9 @@
 {
-  "name": "openscad-mcp-server",
+  "name": "openscad-mcp-server-local",
   "module": "./dist/index.js",
   "type": "module",
   "license": "MIT",
-  "version": "1.0.0",
+  "version": "0.0.0",
   "description": "An MCP server for rendering STL and PNG from OpenSCAD code.",
   "repository": {
     "url": "git+https://github.com/fboldo/openscad-mcp-server.git"
@@ -21,7 +21,7 @@
   "scripts": {
     "start": "bun --watch index.ts",
     "dev": "bun x @modelcontextprotocol/inspector bun start --stdio",
-    "build": "bun build index.ts --outdir dist --target node --format esm --production",
+    "build": "bun build index.ts --outdir dist --target node --format esm --production --banner '#!/usr/bin/env node\n'",
     "prepack": "bun run build"
   },
   "bin": {
