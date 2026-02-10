@@ -1,6 +1,6 @@
 {
   "name": "openscad-mcp-server",
-  "module": "./dist/index.js",
+  "module": "./dist/index.mjs",
   "type": "module",
   "license": "MIT",
   "version": "0.0.0",
@@ -21,11 +21,11 @@
   "scripts": {
     "start": "bun --watch index.ts",
     "dev": "bun x @modelcontextprotocol/inspector bun start --stdio",
-    "build": "bun build index.ts --outdir dist --target node --format esm --production --banner '#!/usr/bin/env node\n'",
+    "build": "tsdown index.ts --banner '#!/usr/bin/env node\n' --env.NODE_ENV production --format esm",
     "prepack": "bun run build"
   },
   "bin": {
-    "openscad-mcp-server": "./dist/index.js"
+    "openscad-mcp-server": "./dist/index.mjs"
   },
   "files": [
     "dist",
@@ -33,7 +33,8 @@
   ],
   "devDependencies": {
     "@types/bun": "latest",
-    "@types/node": "^25.2.2"
+    "@types/node": "^25.2.2",
+    "tsdown": "^0.20.3"
   },
   "peerDependencies": {
     "typescript": "^5"
