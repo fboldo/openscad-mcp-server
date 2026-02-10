@@ -1,5 +1,5 @@
 {
-  "name": "openscad-mcp-server-local",
+  "name": "openscad-mcp-server",
   "module": "./dist/index.js",
   "type": "module",
   "license": "MIT",
