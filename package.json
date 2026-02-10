@@ -22,7 +22,7 @@
     "start": "bun --watch index.ts",
     "dev": "bun x @modelcontextprotocol/inspector bun start --stdio",
     "build": "bun build --outdir dist --target node --format esm index.ts",
-    "prepublishOnly": "bun run build"
+    "prepack": "bun run build"
   },
   "bin": {
     "openscad-mcp-server": "./dist/index.js"
