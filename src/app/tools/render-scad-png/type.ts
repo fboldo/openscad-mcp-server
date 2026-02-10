@@ -1,4 +1,4 @@
-import type { ImageContentSchema } from '@modelcontextprotocol/sdk/types.js';
+import { ImageContentSchema } from '@modelcontextprotocol/sdk/types.js';
 import { z } from 'zod';
 
 export const RenderScadPngCamera = z.object({
@@ -6,6 +6,10 @@ export const RenderScadPngCamera = z.object({
   y: z.number().describe('Camera Y position').default(-25),
   z: z.number().describe('Camera Z position').default(20),
 });
+
+export const RenderScadPngCameraPreset = z
+  .enum(['isometric', 'front', 'back', 'left', 'right', 'top', 'bottom'])
+  .describe('Named camera preset used when `cameraPosition` is not provided');
 
 export const RenderScadPngToolInputSchema = z.object({
   scadCode: z.string().describe('The OpenSCAD code to render'),
@@ -19,6 +23,9 @@ export const RenderScadPngToolInputSchema = z.object({
     .optional()
     .default(600)
     .describe('The height of the output image in pixels (default: 600)'),
+  cameraPreset: RenderScadPngCameraPreset.optional().describe(
+    'A named camera preset used when `cameraPosition` is not provided'
+  ),
   cameraPosition: RenderScadPngCamera.optional().describe(
     'Camera position as { x,y,z }. Example: { x: 0, y: -25, z: 20 }'
   ),
@@ -26,4 +33,19 @@ export const RenderScadPngToolInputSchema = z.object({
 
 export type RenderScadPngToolInput = z.infer<typeof RenderScadPngToolInputSchema>;
 
-export type RenderScadPngToolOutput = z.infer<typeof ImageContentSchema>;
+export const RenderScadPngToolOutputSchema = z.object({
+  image: ImageContentSchema,
+  metadata: z.object({
+    width: z.number(),
+    height: z.number(),
+    cameraPreset: RenderScadPngCameraPreset.optional(),
+    cameraPosition: RenderScadPngCamera.optional(),
+    timingsMs: z.object({
+      openscadToStl: z.number(),
+      stlToPng: z.number(),
+      total: z.number(),
+    }),
+  }),
+});
+
+export type RenderScadPngToolOutput = z.infer<typeof RenderScadPngToolOutputSchema>;

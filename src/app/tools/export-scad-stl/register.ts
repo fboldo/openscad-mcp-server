@@ -1,3 +1,4 @@
+import { asTool } from '@/app/tool-utils';
 import type { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { EmbeddedResourceSchema } from '@modelcontextprotocol/sdk/types.js';
 import { exportScadStlTool } from './tool';
@@ -13,6 +14,6 @@ export const registerExportScadStlTool = (server: McpServer) => {
       inputSchema: ExportScadStlToolInputSchema,
       outputSchema: EmbeddedResourceSchema,
     },
-    exportScadStlTool
+    asTool(exportScadStlTool)
   );
 };

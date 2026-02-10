@@ -2,7 +2,7 @@
 
 [![npm version](https://img.shields.io/npm/v/openscad-mcp-server.svg)](https://www.npmjs.com/package/openscad-mcp-server)
 
-An MCP (Model Context Protocol) server that renders **PNG previews** and **STL geometry** from OpenSCAD (SCAD) source code provided as text. It is designed to support **iterative, agent-driven CAD workflows**, where models can be previewed visually and exported for downstream use (e.g. fabrication, simulation, or inspection).
+An MCP (Model Context Protocol) server that renders **PNG previews** and **STL geometry** from OpenSCAD (SCAD) source code. It is designed to support **iterative, agent-driven CAD workflows**, where models can be previewed visually and exported for downstream use (e.g. fabrication, simulation, or inspection).
 
 ⚠️ **Beta**  
 This MCP server is currently in beta. Performance, APIs, and capabilities may change. Issues and contributions are welcome.
@@ -24,7 +24,9 @@ This MCP server is currently in beta. Performance, APIs, and capabilities may ch
 ## Available Tools
 
 - `render_scad_png`: Renders a PNG preview image from SCAD source.
-  - Input: `scadCode` (string), optional `width`/`height` (numbers) and `cameraPosition: [x, y, z]`
+  - Input: `scadCode` (string), optional `width`/`height` (numbers), optional `cameraPreset` and optional `cameraPosition`
+    - `cameraPreset`: one of `isometric`, `front`, `back`, `left`, `right`, `top`, `bottom`
+    - `cameraPosition`: `{ x, y, z }`
   - Output: MCP `ImageContent`
 - `export_scad_stl`: Exports an STL generated from SCAD source.
   - Input: `scadCode` (string), optional `filename` (string)

@@ -1,11 +1,10 @@
-import { createSingleBlockResult, type StructuredToolResult } from '@/app/tool-utils';
 import { getOpenSCADInstance } from '@/infra/openscad';
 import type { ExportScadStlToolInput, ExportScadStlToolOutput } from './type';
 
 export const exportScadStlTool = async ({
   filename = 'model.stl',
   scadCode,
-}: ExportScadStlToolInput): Promise<StructuredToolResult<ExportScadStlToolOutput>> => {
+}: ExportScadStlToolInput): Promise<ExportScadStlToolOutput> => {
   const openscad = await getOpenSCADInstance();
   const stl = await openscad.renderToStl(scadCode);
   const assignedFilename = filename.endsWith('.stl') ? filename : `${filename}.stl`;
@@ -23,5 +22,5 @@ export const exportScadStlTool = async ({
     },
   };
 
-  return createSingleBlockResult(resource);
+  return resource;
 };
