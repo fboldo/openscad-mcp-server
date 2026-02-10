@@ -21,7 +21,7 @@
   "scripts": {
     "start": "bun --watch index.ts",
     "dev": "bun x @modelcontextprotocol/inspector bun start --stdio",
-    "build": "bun build --outdir dist --target node --format esm index.ts",
+    "build": "bun build index.ts --outdir dist --target node --format esm --production",
     "prepack": "bun run build"
   },
   "bin": {
