@@ -24,7 +24,7 @@ This MCP server is currently in beta. Performance, APIs, and capabilities may ch
 ## Available Tools
 
 - `render_scad_png`: Renders a PNG preview image from SCAD source.
-  - Input: `scadCode` (string), optional `width`/`height` (numbers)
+  - Input: `scadCode` (string), optional `width`/`height` (numbers) and `cameraPosition: [x, y, z]`
   - Output: MCP `ImageContent`
 - `export_scad_stl`: Exports an STL generated from SCAD source.
   - Input: `scadCode` (string), optional `filename` (string)

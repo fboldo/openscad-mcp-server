@@ -7,9 +7,9 @@ export const registerExportScadStlTool = (server: McpServer) => {
   server.registerTool(
     "export_scad_stl",
     {
-      title: "Render OpenSCAD source to an STL",
+      title: "Export OpenSCAD source to an STL",
       description:
-        "Render OpenSCAD (SCAD) source code into an STL and return it as an embedded resource blob.",
+        "Export OpenSCAD (SCAD) source code into an STL and return it as an embedded resource blob.",
       inputSchema: ExportScadStlToolInputSchema,
       outputSchema: EmbeddedResourceSchema,
     },

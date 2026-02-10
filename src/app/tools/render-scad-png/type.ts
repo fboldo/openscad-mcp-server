@@ -13,6 +13,10 @@ export const RenderScadPngToolInputSchema = z.object({
     .optional()
     .default(600)
     .describe("The height of the output image in pixels (default: 600)"),
+  cameraPosition: z
+    .tuple([z.number(), z.number(), z.number()])
+    .optional()
+    .describe("Camera position as [x,y,z]. Example: [0, -25, 20]"),
 });
 
 export type RenderScadPngToolInput = z.infer<
