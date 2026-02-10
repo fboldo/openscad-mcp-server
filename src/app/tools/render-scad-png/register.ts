@@ -9,7 +9,7 @@ export const registerRenderScadPngTool = (server: McpServer) => {
     {
       title: "Render OpenSCAD source to a PNG image",
       description:
-        "Render OpenSCAD (SCAD) source code into a PNG preview image.Provide the SCAD text in `scadCode` and optionally set `width`/`height` (pixels). Returns an MCP ImageContent payload containing the rendered PNG (base64-encoded).",
+        "Render OpenSCAD (SCAD) source code into a PNG preview image.Provide the SCAD text in `scadCode` and optionally set `width`/`height` (pixels). Returns an MCP ImageContent payload containing the rendered PNG (base64-encoded). Ideal for quick previews of SCAD code.",
       inputSchema: RenderScadPngToolInputSchema,
       outputSchema: ImageContentSchema,
     },

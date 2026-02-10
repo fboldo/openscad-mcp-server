@@ -1,9 +1,9 @@
-import { getOpenSCADInstance } from "@/infra/openscad";
-import { createPngBase64FromStl } from "@/infra/stl-to-png";
 import {
   createSingleBlockResult,
   type StructuredToolResult,
-} from "../../tool-utils";
+} from "@/app/tool-utils";
+import { getOpenSCADInstance } from "@/infra/openscad";
+import { createPngBase64FromStl } from "@/infra/stl-to-png";
 import type { RenderScadPngToolInput, RenderScadPngToolOutput } from "./type";
 
 export const renderScadPngTool = async ({

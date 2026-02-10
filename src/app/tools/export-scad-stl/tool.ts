@@ -1,8 +1,8 @@
-import { getOpenSCADInstance } from "@/infra/openscad";
 import {
   createSingleBlockResult,
   type StructuredToolResult,
-} from "../../tool-utils";
+} from "@/app/tool-utils";
+import { getOpenSCADInstance } from "@/infra/openscad";
 import type { ExportScadStlToolInput, ExportScadStlToolOutput } from "./type";
 
 export const exportScadStlTool = async ({
