@@ -28,7 +28,7 @@ jobs:
           node-version: 20
           registry-url: "https://registry.npmjs.org"
 
-      - name: Set version from tag
+      - name: Set versions from tag
         if: github.event_name == 'release' || startsWith(github.ref, 'refs/tags/')
         shell: bash
         run: |
@@ -46,7 +46,7 @@ jobs:
             exit 1
           fi
 
-          npm pkg set version="$VERSION"
+          bun scripts/bump-version.ts --version "$VERSION" --write
 
       - name: Install deps
         run: bun install --frozen-lockfile
