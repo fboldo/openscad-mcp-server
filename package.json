@@ -22,6 +22,10 @@
     "png",
     "3d"
   ],
+  "author": {
+    "name": "Filipe Boldo",
+    "url": "https://github.com/fboldo"
+  },
   "engines": {
     "bun": ">=1.3.8"
   },
