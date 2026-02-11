@@ -11,6 +11,7 @@ metadata:
 ## When to Use This Skill
 
 - The user asks to create, design, or model a 3D object (bracket, enclosure, mount, gear, etc.)
+- The user sends a picture of an object and asks to recreate it in 3D
 - The user wants to render or preview OpenSCAD code
 - The user asks to export an STL file from a SCAD description
 - Any request that can be expressed as parametric CSG geometry
