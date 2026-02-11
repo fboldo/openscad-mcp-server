@@ -1,6 +1,7 @@
 # OpenSCAD MCP Server
 
 [![npm version](https://img.shields.io/npm/v/openscad-mcp-server.svg)](https://www.npmjs.com/package/openscad-mcp-server)
+[![npm downloads](https://img.shields.io/npm/dt/openscad-mcp-server.svg)](https://www.npmjs.com/package/openscad-mcp-server)
 [![CI](https://github.com/fboldo/openscad-mcp-server/actions/workflows/ci.yml/badge.svg)](https://github.com/fboldo/openscad-mcp-server/actions/workflows/ci.yml)
 
 An MCP (Model Context Protocol) server that renders **PNG previews** and **STL geometry** from OpenSCAD (SCAD) source code. It is designed to support **iterative, agent-driven CAD workflows**, where models can be previewed visually and exported for downstream use (e.g. fabrication, simulation, or inspection).
