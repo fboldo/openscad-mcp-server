@@ -4,6 +4,7 @@
   "type": "module",
   "license": "MIT",
   "version": "0.0.0",
+  "mcpName": "io.github.fboldo/openscad-mcp-server",
   "description": "An MCP server that renders PNG previews and STL geometry from OpenSCAD (SCAD) source code.",
   "repository": {
     "url": "git+https://github.com/fboldo/openscad-mcp-server.git"

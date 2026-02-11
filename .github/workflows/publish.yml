@@ -26,7 +26,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          registry-url: "https://registry.npmjs.org"
+          registry-url: 'https://registry.npmjs.org'
 
       - name: Install deps
         run: bun install --frozen-lockfile
@@ -57,7 +57,17 @@ jobs:
 
           bun run version --version "$VERSION" --write
 
-      - name: Publish
+      - name: Publish to npm
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: npm publish --provenance --access public --ignore-scripts
+
+      - name: Install mcp-publisher
+        run: |
+          curl -L "https://github.com/modelcontextprotocol/registry/releases/latest/download/mcp-publisher_$(uname -s | tr '[:upper:]' '[:lower:]')_$(uname -m | sed 's/x86_64/amd64/;s/aarch64/arm64/').tar.gz" | tar xz mcp-publisher
+
+      - name: Authenticate to MCP Registry
+        run: ./mcp-publisher login github-oidc
+
+      - name: Publish server to MCP Registry
+        run: ./mcp-publisher publish
