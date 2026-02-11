@@ -34,6 +34,10 @@ This MCP server is currently in beta. Performance, APIs, and capabilities may ch
   - Input: `scadCode` (string), optional `filename` (string)
   - Output: MCP embedded resource (STL)
 
+## Skill
+
+This repository also includes an [OpenSCAD iterative modeling skill](skills/openscad-iterative-modeling/SKILL.md) that demonstrates how to use this MCP server to support an iterative SCAD → PNG → critique → refine loop.
+
 ## Installation
 
 The published package is intended to run over stdio. Configure it in your MCP client using `npx`:
@@ -47,6 +51,16 @@ The published package is intended to run over stdio. Configure it in your MCP cl
     }
   }
 }
+```
+
+### Using the Skill
+
+[Agents skills](https://github.com/agentskills/agentskills) are a simple, open format for giving agents new capabilities and expertise.
+
+The most straightforward to use the OpenSCAD iterative modeling skill is to install it using the [skills CLI](https://github.com/vercel-labs/skills):
+
+```bash
+npx skills add fboldo/openscad-mcp-server --skill openscad-iterative-modeling
 ```
 
 ## Local development
