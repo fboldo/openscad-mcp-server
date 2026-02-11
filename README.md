@@ -62,6 +62,9 @@ The published package is intended to run over stdio. Configure it in your MCP cl
 - [jhacksman/OpenSCAD-MCP-Server](https://github.com/jhacksman/OpenSCAD-MCP-Server)
   This project provides a different approach relying on generating images from user prompts, followed by 3D reconstruction and even 3D printer discovery. It's a very interesting project, and I recommend checking it out if you are interested in OpenSCAD and MCP servers.
 
+- [petrijr/openscad-mcp](https://github.com/petrijr/openscad-mcp)
+  Similar to this project, but it uses a Python-based server and relies on the OpenSCAD CLI for rendering.
+
 ## Relevant Links
 
 - [OpenSCAD](https://openscad.org/)
