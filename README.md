@@ -38,6 +38,12 @@ This MCP server is currently in beta. Performance, APIs, and capabilities may ch
 
 This repository also includes an [OpenSCAD iterative modeling skill](skills/openscad-iterative-modeling/SKILL.md) that demonstrates how to use this MCP server to support an iterative SCAD → PNG → critique → refine loop.
 
+## Limitations
+
+- **Performance**: Rendering complex SCAD models can be slow, especially in a WASM environment.
+- **Feature support**: Not all OpenSCAD features may be fully supported or may have limitations in the WASM version.
+- **Fonts**: Text rendering is not currently supported. Support is planned for a future release.
+
 ## Installation
 
 The published package is intended to run over stdio. Configure it in your MCP client using `npx`:

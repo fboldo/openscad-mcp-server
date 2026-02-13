@@ -33,19 +33,6 @@ export const RenderScadPngToolInputSchema = z.object({
 
 export type RenderScadPngToolInput = z.infer<typeof RenderScadPngToolInputSchema>;
 
-export const RenderScadPngToolOutputSchema = z.object({
-  image: ImageContentSchema,
-  metadata: z.object({
-    width: z.number(),
-    height: z.number(),
-    cameraPreset: RenderScadPngCameraPreset.optional(),
-    cameraPosition: RenderScadPngCamera.optional(),
-    timingsMs: z.object({
-      openscadToStl: z.number(),
-      stlToPng: z.number(),
-      total: z.number(),
-    }),
-  }),
-});
+export const RenderScadPngToolOutputSchema = ImageContentSchema;
 
 export type RenderScadPngToolOutput = z.infer<typeof RenderScadPngToolOutputSchema>;
