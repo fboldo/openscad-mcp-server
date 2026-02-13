@@ -25,7 +25,8 @@ export const executeOpenSCAD = async <T>(callback: OpenSCADCallback<T>): Promise
 
   if (response.constructor.name.includes('Error')) {
     const errors = outputs.filter((o) => o.toLowerCase().includes('error:'));
-    const errorMessage = errors.length > 0 ? errors.join('\n') : response.message;
+    const allErrors = [...errors, response.message];
+    const errorMessage = allErrors.length > 0 ? allErrors.join('\n') : response.message;
     throw new Error(errorMessage);
   }
 
