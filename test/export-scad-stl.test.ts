@@ -35,3 +35,30 @@ test(
   },
   { timeout: 30_000 }
 );
+
+test(
+  'export_scad_stl return error when given invalid SCAD code',
+  async () => {
+    const scadCode = 'invalid scad code';
+
+    const execute = asTool(exportScadStlTool);
+    const result = await execute({
+      scadCode,
+      filename: 'cube.stl',
+    });
+
+    const textResult =
+      'content' in result &&
+      Array.isArray(result.content) &&
+      result.content[0] &&
+      'text' in result.content[0]
+        ? result.content[0]
+        : null;
+
+    expect(result?.isError).toBe(true);
+    expect(textResult?.text).toBe(
+      'Operation failed: ERROR: Parser error: syntax error in file /input.scad, line 1'
+    );
+  },
+  { timeout: 30_000 }
+);

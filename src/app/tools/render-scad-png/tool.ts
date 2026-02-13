@@ -1,4 +1,4 @@
-import { getOpenSCADInstance } from '@/infra/openscad';
+import { executeOpenSCAD } from '@/infra/openscad';
 import { createPngBase64FromStl } from '@/infra/stl-to-png';
 import type { RenderScadPngToolInput, RenderScadPngToolOutput } from './type';
 
@@ -40,10 +40,20 @@ export const renderScadPngTool = async ({
   cameraPreset,
   cameraPosition,
 }: RenderScadPngToolInput): Promise<RenderScadPngToolOutput> => {
-  const openscad = await getOpenSCADInstance();
-  const stl = await openscad.renderToStl(scadCode);
+  const result = await executeOpenSCAD(async (instance) => {
+    const openscad = instance.getInstance();
+    openscad.FS.writeFile('input.scad', scadCode);
+    openscad.callMain(['input.scad', '-o', 'output.stl', '--backend=manifold']);
+    const stlData = openscad.FS.readFile('output.stl');
+    return stlData;
+  });
+
+  if (!result) {
+    throw new Error('Failed to generate STL from OpenSCAD');
+  }
+
   const base64Png = await createPngBase64FromStl(
-    stl,
+    result as string,
     width,
     height,
     resolveCameraPosition(cameraPosition, cameraPreset)
