@@ -4,9 +4,13 @@ import { Hono } from 'hono';
 import { cors } from 'hono/cors';
 import { type ServerFactory } from '../server';
 
-export const createHttpServer = async (createServer: ServerFactory) => {
-  const transport = new WebStandardStreamableHTTPServerTransport();
-
+/**
+ * Creates the Hono app serving the MCP endpoint in stateless mode.
+ *
+ * Stateless transports cannot be reused across requests, so a fresh server and
+ * transport pair is created for every `/mcp` request and closed once it has responded.
+ */
+export const createHttpApp = (createServer: ServerFactory) => {
   const app = new Hono();
 
   app.use(
@@ -21,11 +25,28 @@ export const createHttpServer = async (createServer: ServerFactory) => {
 
   app.get('/health', (c) => c.json({ status: 'ok' }));
 
-  app.all('/mcp', (c) => transport.handleRequest(c.req.raw));
+  app.all('/mcp', async (c) => {
+    const transport = new WebStandardStreamableHTTPServerTransport({
+      sessionIdGenerator: undefined,
+      enableJsonResponse: true,
+    });
+    const server = createServer();
+
+    try {
+      await server.connect(transport);
+      return await transport.handleRequest(c.req.raw);
+    } finally {
+      await server.close();
+    }
+  });
+
+  return app;
+};
+
+export const createHttpServer = async (createServer: ServerFactory) => {
+  const app = createHttpApp(createServer);
 
   const PORT = process.env.MCP_PORT ? Number.parseInt(process.env.MCP_PORT, 10) : 3000;
-
-  await createServer().connect(transport);
 
   console.log(`Starting Hono MCP server on port ${PORT}`);
   console.log(`Health check: http://localhost:${PORT}/health`);

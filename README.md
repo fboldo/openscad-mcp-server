@@ -59,6 +59,14 @@ The published package is intended to run over stdio. Configure it in your MCP cl
 }
 ```
 
+To run it over HTTP instead (e.g. in Docker), pass `--http`:
+
+```bash
+MCP_PORT=3000 npx -y openscad-mcp-server --http
+```
+
+The server exposes `GET /health` and a stateless streamable HTTP MCP endpoint at `POST /mcp`.
+
 ### Using the Skill
 
 [Agents skills](https://github.com/agentskills/agentskills) are a simple, open format for giving agents new capabilities and expertise.
@@ -73,7 +81,7 @@ npx skills add fboldo/openscad-mcp-server --skill openscad-iterative-modeling
 
 - Install deps: `bun install`
 - Stdio (matches how clients run it): `bun index.ts --stdio`
-- HTTP (useful for manual testing): `bun index.ts`
+- HTTP (useful for manual testing): `bun index.ts` (or `--http`)
   - Port: `MCP_PORT` (default `3000`)
   - Endpoints: `GET /health`, MCP at `POST /mcp`
 - MCP Inspector: `bun run dev`
