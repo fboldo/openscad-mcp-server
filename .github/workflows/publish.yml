@@ -62,7 +62,19 @@ jobs:
 
       # Authenticates via npm trusted publishing (OIDC); requires npm >= 11.5.1
       - name: Publish to npm
-        run: npm publish --provenance --access public --ignore-scripts
+        shell: bash
+        run: |
+          set -euo pipefail
+          NAME="$(node -p "require('./package.json').name")"
+          VERSION="$(node -p "require('./package.json').version")"
+
+          # Skip if already published so a failed run can be re-run
+          if [[ -n "$(npm view "$NAME@$VERSION" version 2>/dev/null)" ]]; then
+            echo "$NAME@$VERSION is already on npm; skipping"
+            exit 0
+          fi
+
+          npm publish --provenance --access public --ignore-scripts
 
       - name: Install mcp-publisher
         run: |
@@ -71,5 +83,15 @@ jobs:
       - name: Authenticate to MCP Registry
         run: ./mcp-publisher login github-oidc
 
+      # The registry rejects versions npm hasn't made visible yet, which can take a few minutes
       - name: Publish server to MCP Registry
-        run: ./mcp-publisher publish
+        shell: bash
+        run: |
+          for attempt in $(seq 1 10); do
+            if ./mcp-publisher publish; then
+              exit 0
+            fi
+            echo "Attempt $attempt failed; retrying in 30s"
+            sleep 30
+          done
+          exit 1
