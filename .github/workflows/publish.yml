@@ -25,8 +25,11 @@ jobs:
       - name: Setup Node (npm)
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 24
           registry-url: 'https://registry.npmjs.org'
+
+      - name: Update npm
+        run: npm install -g npm@latest
 
       - name: Install deps
         run: bun install --frozen-lockfile
@@ -57,9 +60,8 @@ jobs:
 
           bun run version --version "$VERSION" --write
 
+      # Authenticates via npm trusted publishing (OIDC); requires npm >= 11.5.1
       - name: Publish to npm
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: npm publish --provenance --access public --ignore-scripts
 
       - name: Install mcp-publisher
